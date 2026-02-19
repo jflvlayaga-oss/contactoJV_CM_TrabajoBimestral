@@ -10,6 +10,7 @@ import com.example.contactoapp.ui.home.HomeScreen
 import com.example.contactoapp.ui.contacts.ContactListScreen
 import com.example.contactoapp.ui.contacts.AddContactScreen
 import com.example.contactoapp.ui.login.RegisterScreen
+import com.example.contactoapp.ui.contacts.EditContactScreen
 
 
 
@@ -60,6 +61,21 @@ class MainActivity : ComponentActivity() {
                             navController.popBackStack()
                         }
                     }
+
+                    composable(
+                        "edit_contact/{contactId}"
+                    ) { backStackEntry ->
+
+                        val contactId = backStackEntry.arguments
+                            ?.getString("contactId")
+                            ?.toIntOrNull() ?: 0
+
+                        EditContactScreen(
+                            navController = navController,
+                            contactId = contactId
+                        )
+                    }
+
                 }
 
             }

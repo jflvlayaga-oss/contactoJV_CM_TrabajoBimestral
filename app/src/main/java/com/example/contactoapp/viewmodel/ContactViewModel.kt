@@ -46,5 +46,12 @@ class ContactViewModel(application: Application) : AndroidViewModel(application)
             contactDao.delete(contact)
         }
     }
+
+    fun update(contact: Contact) {
+        viewModelScope.launch {
+            contactDao.update(contact)
+        }
+    }
+
 }
 

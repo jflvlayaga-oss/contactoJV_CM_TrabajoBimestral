@@ -71,32 +71,93 @@ fun ContactListScreen(
             ) {
 
                 items(contacts) { contact ->
-                    ContactItem(contact = contact)
+                    ContactItem(
+                        contact = contact,
+                        onEdit = {
+                            navController.navigate("edit_contact/${contact.id}")
+                        },
+                        onDelete = {
+                            viewModel.delete(contact)
+                        }
+                    )
                 }
+
             }
         }
     }
 }
 
 @Composable
-fun ContactItem(contact: Contact) {
+fun ContactItem(
+    contact: Contact,
+    onEdit: (Contact) -> Unit,
+    onDelete: (Contact) -> Unit
+
+) {
+
+    var expanded by remember { mutableStateOf(false) }
 
     Card(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
     ) {
+
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .padding(16.dp)
         ) {
-            Text(
-                text = contact.nombres,
-                style = MaterialTheme.typography.titleMedium
-            )
+
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+
+                Text(
+                    text = contact.nombres,
+                    style = MaterialTheme.typography.titleMedium
+                )
+
+                IconButton(onClick = { expanded = true }) {
+                    Text("⋮")
+                }
+
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+
+                    DropdownMenuItem(
+                        text = { Text("Editar") },
+                        onClick = {
+                            expanded = false
+                            onEdit(contact)
+                        }
+                    )
+
+                    DropdownMenuItem(
+                        text = { Text("Eliminar") },
+                        onClick = {
+                            expanded = false
+                            onDelete(contact)
+                        }
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(4.dp))
+
             Text(text = contact.telefono)
             Text(text = contact.email)
             Text(text = contact.empresa)
         }
     }
+
 }
+
+
+
+
 
 
 

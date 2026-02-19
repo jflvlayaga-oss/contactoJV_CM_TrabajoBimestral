@@ -22,3 +22,4 @@ interface ContactDao {
     @Query("SELECT * FROM contacts WHERE nombres LIKE '%' || :query || '%'")
     fun searchContacts(query: String): Flow<List<Contact>>
 }
+
