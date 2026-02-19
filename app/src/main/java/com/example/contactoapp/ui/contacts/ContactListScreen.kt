@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import com.example.contactoapp.data.Contact
 import com.example.contactoapp.viewmodel.ContactViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContactListScreen(
     navController: NavController,
@@ -22,6 +23,22 @@ fun ContactListScreen(
     val searchQuery by viewModel.searchQuery.collectAsState()
 
     Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Mis Contactos") },
+                actions = {
+                    TextButton(
+                        onClick = {
+                            navController.navigate("login") {
+                                popUpTo("home") { inclusive = true }
+                            }
+                        }
+                    ) {
+                        Text("Cerrar sesión")
+                    }
+                }
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { navController.navigate("add_contact") }
@@ -80,4 +97,6 @@ fun ContactItem(contact: Contact) {
         }
     }
 }
+
+
 
